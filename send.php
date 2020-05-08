@@ -3,7 +3,7 @@
 // original file: https://gist.github.com/frjo/23e45ec5e690d90f6bfcaca06873fd73 
 
 // receiver
-$addr = 'info@anymailadress.com';
+$addr = '---';
 // subject prefix
 $prefix = 'contact form: ';
 
