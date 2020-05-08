@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontaktformular</title>
+    <!-- HEADER PART REQUIRED FOR CONTACT FORM -->
+    <link rel="stylesheet" href="./contact.css">
+    <!-- END OF HEADER DATA FOR CONTACT FORM -->
+</head>
+
+<body>
+    <!-- The code for the CONTACT FORM -->
+    <p class="noJSInfo">Das Kontaktformular erfordert Java Script. Bitte aktiviere Java Script in deinem Browser um es
+        zu nutzen.</p>
+
+    <form class="contact-form hidden" action="#" method="post" accept-charset="UTF-8">
+        <label for="name">Dein Name</label>
+        <input type="text" id="name" name="name" minlength="3" placeholder="Gebe hier deinen Namen ein..." tabindex="1"
+            required autofocus><span></span>
+        <label for="email">Deine E-Mail-Adresse</label>
+        <input type="email" id="email" name="email" minlength="5" placeholder="Gebe hier deine E-Mail-Adresse ein..."
+            tabindex="2" required><span></span>
+        <input type="text" id="url" name="url" placeholder="Hier nichts eingeben, wenn du ein Mensch bist..."
+            tabindex="3">
+        <label for="subject">Betreff</label>
+        <input type="text" id="subject" name="subject"
+            placeholder="Gebe hier den Betreff deiner Nachricht ein (optional)..." autocomplete="off"
+            tabindex="4"><span></span>
+        <label for="message">Deine Nachricht</label>
+        <textarea id="message" name="message" minlength="10" rows="5"
+            placeholder="Hier ist Platz für deine Nachricht..." autocomplete="off" tabindex="5"
+            required></textarea><span></span>
+        <p class="submit-success hidden">Vielen Dank! Deine Nachricht wurde erfolgreich verschickt. 🙂</p>
+        <p class="submit-error hidden">Beim Versenden der Nachricht gab es leider ein Problem. Bitte versuche es
+            nochmal, oder ruf uns an.</p>
+        <button type="submit" name="submit" class="form-submit submitting" disabled>
+            Nachricht senden</button>
+
+    </form>
+
+    <script src="contactform.js"></script>
+    <!-- END of code for the CONTACT FORM -->
+
+</body>
+
+</html>

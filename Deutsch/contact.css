@@ -1,0 +1,53 @@
+/* COLOR DEFINITION */
+:root {
+  --contactform-required: rgb(152, 80, 54);
+  --contactform-bg-valid: #f0faea;
+  --contactform-bg-invalid: #f8e5e5;
+  --contactform-error: rgb(155, 49, 49);
+  --contactform-success: rgb(39, 128, 39);
+}
+
+.hidden {
+  display: none;
+}
+
+.contact-form input, .contact-form textarea {
+    margin-bottom: 0.5rem;
+    margin-top: 0.2rem;
+    font-style: inherit; 
+    width: 92%;
+}
+
+.contact-form input:required + span::after, .contact-form textarea:required + span::after {
+  color: var(--contactform-required);
+  content: ' *';
+  vertical-align: top;
+}
+
+.contact-form input:not(:placeholder-shown):valid, .contact-form textarea:not(:placeholder-shown):valid {
+  background-color: var(--contactform-bg-valid);
+}
+
+.contact-form input:not(:placeholder-shown):invalid, .contact-form textarea:not(:placeholder-shown):invalid {
+  background-color: var(--contactform-bg-invalid);
+}
+
+.contact-form label {
+  display: block;
+}
+
+.sent-success input:invalid, .sent-success textarea:invalid {
+  background-color: var(--contactform-bg-valid);
+} 
+
+.sent-success input:valid, .sent-success textarea:valid {
+  background-color: var(--contactform-bg-valid);
+} 
+
+.submit-error {
+  color: var(--contactform-error);
+}
+
+.submit-success {
+  color: var(--contactform-success);
+}

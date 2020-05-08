@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact form</title>
+    <!-- HEADER PART REQUIRED FOR CONTACT FORM -->
+    <link rel="stylesheet" href="./contact.css">
+    <!-- END OF HEADER DATA FOR CONTACT FORM -->
+</head>
+
+<body>
+    <!-- The code for the CONTACT FORM -->
+    <p class="noJSInfo">The contact form requires Java Script. Please activate Java Script in your browser to activate
+        it.</p>
+
+    <form class="contact-form hidden" action="#" method="post" accept-charset="UTF-8">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" minlength="3" placeholder="Name" tabindex="1" required
+            autofocus><span></span>
+        <label for="email">Your E-Mail-Adress</label>
+        <input type="email" id="email" name="email" minlength="5" placeholder="E-Mail-adress" tabindex="2"
+            required><span></span>
+        <input type="text" id="url" name="url" placeholder="Dont type anything here if you are a human being..."
+            tabindex="3">
+        <label for="subject">Subject of your Message</label>
+        <input type="text" id="subject" name="subject" placeholder="Subject" autocomplete="off"
+            tabindex="4"><span></span>
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" minlength="10" rows="5" placeholder="Message" autocomplete="off"
+            tabindex="5" required></textarea><span></span>
+        <p class="submit-success hidden">Your message has been sent successfully 🙂</p>
+        <p class="submit-error hidden">There has been an error sending your message. Please try again or contact us
+            via phone.</p>
+        <button type="submit" name="submit" class="form-submit submitting" disabled>
+            Send message</button>
+
+    </form>
+
+    <script src="contactform.js"></script>
+    <!-- END of code for the CONTACT FORM -->
+
+</body>
+
+</html>
