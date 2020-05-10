@@ -18,7 +18,7 @@ if ((bool) filter_var(trim($addr), FILTER_VALIDATE_EMAIL)) {
 }
 else {
   $error = true;
-  $errmsg = 1; // 1 = Adress validation failed
+  $errmsg = 1; // 1 = Adress validation failed.
 }
 // Check that referer is local server.
 if (!isset($_SERVER['HTTP_REFERER']) || (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != $_SERVER['SERVER_NAME'])) {
@@ -77,7 +77,7 @@ $contact_form_url = strtok($_SERVER['HTTP_REFERER'], '?');
 if ($errmsg == 0) {
     header('Location: ' . $contact_form_url . '?' . $status, TRUE, 302);
 } else {
-    header('Location: ' . $contact_form_url . '?' . $status . '?' . $errmsg, TRUE, 302);
+    header('Location: ' . $contact_form_url . '?' . $status . '&' . $errmsg, TRUE, 302);
 }
 exit;
 

@@ -34,16 +34,12 @@ document.querySelector('.noJSInfo').classList.add('hidden');
 function humanDetected() {
   contactForm.querySelector('#url').classList.add('hidden');
   contactFormSubmit.removeAttribute('disabled');
-  // once we know it's a human, remove eventListeners
-  window.removeEventListener('mousemove', humanDetected);
-  window.removeEventListener('keyup', humanDetected);
-  window.removeEventListener('touchmove', humanDetected);
 }
 
 // run humanDetected() on mousemove/ touchmove, keyuup
-window.addEventListener('mousemove', humanDetected);
-window.addEventListener('keyup', humanDetected);
-window.addEventListener('touchmove', humanDetected);
+window.addEventListener('mousemove', humanDetected, { once: true });
+window.addEventListener('keyup', humanDetected, { once: true });
+window.addEventListener('touchmove', humanDetected, { once: true });
 
 // handle submit button
 function submitForm(e) {
@@ -70,18 +66,18 @@ let status = window.location.href.substring(
   window.location.href.indexOf('?') + 1
 );
 
-if (status.includes('?')) {
+if (status.includes('&')) {
   // read the optional error message from the PHP script
   const err = window.location.href.substring(
-    window.location.href.lastIndexOf('?') + 1
+    window.location.href.indexOf('&') + 1
   );
   status = status.substr(0, status.length - (err.length + 1));
   switch (err) {
     case '1':
-      errmsg = 'Adress validation failed';
+      errmsg = 'Server Fehler (Emnpfänger Adresse)';
       break;
     case '2':
-      errmsg = 'No post request';
+      errmsg = 'Server Fehler (no post request)';
       break;
     case '3':
       errmsg =
