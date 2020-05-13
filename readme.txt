@@ -32,7 +32,7 @@ OPTIONAL CONFIGURATION:
 	- lines 40 & 41: error & success messages
  - @contactform.js:
 	- line 33: default "detailed" error message
-	- line 94 ff: specific "detailed" error messages
+	- line 96 ff: specific "detailed" error messages
 
 That's it! I hope you enjoy!
 

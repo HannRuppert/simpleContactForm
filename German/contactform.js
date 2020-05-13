@@ -60,6 +60,7 @@ async function submitForm(e) {
   }
   // else continue to send data to send.php
   spinner.classList.remove('hidden');
+  contactFormSubmit.disabled = true;
   const formData = new FormData(e.currentTarget);
   const baseEndpoint = 'send.php';
 
@@ -80,6 +81,7 @@ async function submitForm(e) {
   }
   await wait(500);
   spinner.classList.add('hidden');
+  contactFormSubmit.disabled = false;
 }
 
 function handleFetchError(err) {
