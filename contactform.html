@@ -7,6 +7,7 @@
     <title>Contact form</title>
     <!-- HEADER PART REQUIRED FOR CONTACT FORM -->
     <link rel="stylesheet" href="./contact.css">
+    <link rel="stylesheet" href="./spinner.css">
     <!-- END OF HEADER DATA FOR CONTACT FORM -->
 </head>
 
@@ -30,12 +31,15 @@
         <label for="message">Your Message</label>
         <textarea id="message" name="message" minlength="10" rows="5" placeholder="Message" autocomplete="off"
             tabindex="5" required></textarea><span></span>
+        <button type="submit" name="submit" class="form-submit submitting" disabled>Send message</button>
+        <div class="lds-ripple hidden">
+            <div></div>
+            <div></div>
+        </div>
+
         <p class="submit-success hidden">Your message has been sent successfully 🙂</p>
         <p class="submit-error hidden">There has been an error sending your message. Please try again or contact us
             via phone.</p>
-        <button type="submit" name="submit" class="form-submit submitting" disabled>
-            Send message</button>
-
     </form>
 
     <script src="contactform.js"></script>

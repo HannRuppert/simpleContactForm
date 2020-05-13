@@ -7,6 +7,11 @@
   --contactform-success: rgb(39, 128, 39);
 }
 
+.button, button:active,
+button:focus, button:hover {
+  outline: none;
+}
+
 .hidden {
   display: none;
 }

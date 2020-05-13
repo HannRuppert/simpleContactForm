@@ -15,16 +15,22 @@
 // THIS IS THE INTERNATIONAL VERSION (ALL OUTPUTS ARE IN ENGLISH! :-)
 // THERE IS ALSO A GERMAN VERSION AVAILABLE (WITH ALL OUTPUTS IN GERMAN :-)
 
+// wait function for handling send.php
+const wait = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+
 // Variable declaration
 const contactForm = document.querySelector('.contact-form');
 const contactFormSubmit = contactForm.querySelector('.form-submit');
 const errorText = document.querySelector('.submit-error');
 const sentText = document.querySelector('.submit-success');
+const spinner = document.querySelector('.lds-ripple');
 // Form inputs
 const iName = contactForm.querySelector('#name');
 const iMail = contactForm.querySelector('#email');
 const iSubject = contactForm.querySelector('#subject');
 const iMessage = contactForm.querySelector('#message');
+// UI variables
+let errmsg = 'Not specified';
 
 // Display Contact Form, hide no JS info
 contactForm.classList.remove('hidden');
@@ -42,64 +48,66 @@ window.addEventListener('keyup', humanDetected, { once: true });
 window.addEventListener('touchmove', humanDetected, { once: true });
 
 // handle submit button
-function submitForm(e) {
+async function submitForm(e) {
+  e.preventDefault();
+  errorText.classList.add('hidden');
+  sentText.classList.add('hidden');
+  contactForm.classList.remove('sent-success');
   // check if fake-url-field is filled in by a bot
   if (document.querySelector('#url').value) {
     errorText.classList.remove('hidden');
-    e.preventDefault();
     return;
   }
-  contactForm.action = './send.php';
-  // save inputs to session storage
-  sessionStorage.setItem('contactFormName', iName.value);
-  sessionStorage.setItem('contactFormMail', iMail.value);
-  sessionStorage.setItem('contactFormSubject', iSubject.value);
-  sessionStorage.setItem('contactFormMessage', iMessage.value);
+  // else continue to send data to send.php
+  spinner.classList.remove('hidden');
+  const formData = new FormData(e.currentTarget);
+  const baseEndpoint = 'send.php';
+
+  const response = await fetch(baseEndpoint, {
+    method: 'POST',
+    body: formData,
+  }).catch(err => handleFetchError(err));
+
+  const text = await response.text();
+  if (text.includes('submitted')) {
+    // sending Mail successful
+    sentText.classList.remove('hidden');
+    contactForm.classList.add('sent-success');
+    contactForm.reset();
+  } else {
+    // sending error
+    handleSendError(text);
+  }
+  await wait(500);
+  spinner.classList.add('hidden');
 }
 
-contactForm.addEventListener('submit', submitForm);
+function handleFetchError(err) {
+  console.log('Fetch Error');
+  console.log(err);
+}
 
-// check for a status and message from browser address and display error or success message
-let errmsg = 'Not specified';
-// read the status from the PHP script
-let status = window.location.href.substring(
-  window.location.href.indexOf('?') + 1
-);
-
-if (status.includes('&')) {
-  // read the optional error message from the PHP script
-  const err = window.location.href.substring(
-    window.location.href.indexOf('&') + 1
-  );
-  status = status.substr(0, status.length - (err.length + 1));
-  switch (err) {
+function handleSendError(err) {
+  const errcode = err.substring(err.indexOf('&') + 1);
+  switch (errcode) {
     case '1':
       errmsg = 'Server error (receiver adress)';
       break;
     case '2':
-      errmsg = 'Server error (no post request)';
+      errmsg = 'Server error (no direct access allowed)';
       break;
     case '3':
-      errmsg = 'No valid user email adress';
+      errmsg = 'Server error (no post request)';
+      break;
+    case '4':
+      errmsg = 'No valid user email adress (please check your email adress)';
       break;
     default:
       break;
   }
-}
-
-// display error or success message
-if (status === 'error') {
   errorText.classList.remove('hidden');
-  errorText.innerHTML += `<br>(Error Message: "${errmsg}")`;
-  // populate fields from session storage in case of an error
-  iName.value = sessionStorage.getItem('contactFormName');
-  iMail.value = sessionStorage.getItem('contactFormMail');
-  iSubject.value = sessionStorage.getItem('contactFormSubject');
-  iMessage.value = sessionStorage.getItem('contactFormMessage');
+  errorText.innerHTML = `There has been an error sending your message. Please try again or contact us
+  via phone.<br>(Error Message: "${errmsg}")`;
 }
 
-if (status === 'submitted') {
-  sentText.classList.remove('hidden');
-  contactForm.classList.add('sent-success');
-  contactForm.reset();
-}
+contactForm.addEventListener('submit', submitForm);

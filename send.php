@@ -1,9 +1,9 @@
 <?php
-// this PHP send-script has been taken from Fredrik Jonsson (thank you!) and slightly modified
+// this PHP script has been taken from Fredrik Jonsson (thank you!) and slightly modified for JS fetch handling
 // original file: https://gist.github.com/frjo/23e45ec5e690d90f6bfcaca06873fd73 
 
 // receiver
-$addr = '---';
+$addr = 'YOUR RECEIVER ADRESS HERE';
 // subject prefix
 $prefix = 'contact form: ';
 
@@ -18,29 +18,31 @@ if ((bool) filter_var(trim($addr), FILTER_VALIDATE_EMAIL)) {
 }
 else {
   $error = true;
-  $errmsg = 1; // 1 = Adress validation failed.
+  $errmsg = 1; // Adress validation failed.
 }
+
 // Check that referer is local server.
 if (!isset($_SERVER['HTTP_REFERER']) || (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) != $_SERVER['SERVER_NAME'])) {
   exit('Direct access not permitted');
-  $errmsg = 'Direct access not permitted';
+  $errmsg = 2; // Direct Access not allowed 
 }
 
-// Check that this is a post request.
+// Check that this is a post request
 if ($_SERVER['REQUEST_METHOD'] != 'POST' || empty($_POST)) {
   $error = true;
-  $errmsg = 2; // 2 = No post request
+  $errmsg = 3; // No post request
 }
 
-// Check that e-mail addr is valid.
+// Validate user e-mail address 
 if ((bool) filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL)) {
   $email = trim($_POST['email']);
 }
 else {
   $error = true;
-  $errmsg = 3; // 3 = No valid email adress
+  $errmsg = 4; // No valid email adress
 }
 
+// If no error then send mail
 if (!$error) {
   // Construct the mail with headers.
   $name = _contact_clean_str($_POST['name'], ENT_QUOTES, true, true);
@@ -71,16 +73,16 @@ if (!$error) {
 }
 
 $status = $success ? 'submitted' : 'error';
-$contact_form_url = strtok($_SERVER['HTTP_REFERER'], '?');
 
-// Redirect back to contact form with status.
+// Return to JS
 if ($errmsg == 0) {
-    header('Location: ' . $contact_form_url . '?' . $status, TRUE, 302);
+  echo('?' . $status);
 } else {
-    header('Location: ' . $contact_form_url . '?' . $status . '&' . $errmsg, TRUE, 302);
+  echo('?' . $status . '&' . $errmsg);
 }
 exit;
 
+// required functions
 function _contact_ff_wrap(&$line) {
   $line = wordwrap($line, 72, " \n");
 }
@@ -98,4 +100,5 @@ function _contact_clean_str($str, $quotes, $strip = false, $encode = false) {
 
   return $str;
 }
+
 ?>
